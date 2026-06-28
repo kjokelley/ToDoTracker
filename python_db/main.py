@@ -10,6 +10,7 @@ activeTasks = tpl.pickTasks(allTasks)
 print(activeTasks)
 for x in activeTasks:
     task = th.get_task(x)
+    print(x)
     pt.print_task_by_id(task[1])
 #task = task_json[0][1]
 #print(task)
