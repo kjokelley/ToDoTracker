@@ -8,7 +8,7 @@ def print_task_by_id(task_name):
     #p.text("Hello World\n")
     #p.text("123\n\n\n\n\n")
     #p.text("end")
-    p.image("/home/kyle/ToDoTracker/python_db/Printer_Control/tux.png")
+    p.image("/home/kyle/ToDoTracker/python_db/Printer_Control/taskList.png")
     #p.barcode('4006381333931', 'EAN13', 64, 2, '', '')
 
     #task = th.get_task(task_id)
