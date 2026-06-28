@@ -8,6 +8,9 @@ from Python_DB import task_picker_logic as tpl
 allTasks = th.get_all_tasks()
 activeTasks = tpl.pickTasks(allTasks)
 print(activeTasks)
+for x in activeTasks:
+    task = th.get_task(x)
+    pt.print_task_by_id(task[1])
 #task = task_json[0][1]
 #print(task)
 #pt.print_task_by_id(task)
