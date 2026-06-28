@@ -82,8 +82,8 @@ def get_task(task_id):
         connection = create_connection()
         cursor = connection.cursor()
         cursor.execute(
-            "SELECT * FROM tasks WHERE id == %s", 
-            task_id
+            "SELECT * FROM tasks WHERE id == (%s)", 
+            (task_id,)
         )
         task = cursor.fetchone()
         return task
