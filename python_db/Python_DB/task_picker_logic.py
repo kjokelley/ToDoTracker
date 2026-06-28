@@ -13,7 +13,7 @@ def pickTasks(tasks):
 
     for x in tasks:
         #taskDict[x[0]] = x[2]
-        match x[2]:
+        match x[3]:
             case 1:
                 runningTotalOfPriority[1] += 1
                 taskDict[1].append(x[0])
