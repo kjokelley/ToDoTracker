@@ -79,6 +79,7 @@ def remove_task(task_id):
 
 def get_task(task_id):
     try:
+        connection = create_connection()
         cursor = connection.cursor()
         cursor.execute(
             "SELECT * FROM tasks WHERE id == %s", 
@@ -89,6 +90,7 @@ def get_task(task_id):
     except psycopg2.Error as error:
         print(f"Database error occured: {error}")
     finally:
+        connection.commit()
         cursor.close()
         print("End of retrieval")
         connection.close()
