@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Node.js Button Click</title>
+</head>
+<body>
+
+    <!-- The interactive button element -->
+    <ul id="data-list"></ul>
+    <h1 id="heading">Insert New Task</h1>
+    <form id="taskForm">
+        <label for="taskName">Task Name</label>
+        <input type="Text" id="taskName1" name="taskName" required><br><br>
+        <label for="taskType">Task Type</label>
+            <select name="taskType" id="taskType1">
+                <option value = "Chore">Chore</option>
+                <option value = "Health">Health</option>
+                <option value = "Religious">Religious</option>
+                <option value = "Professional">Professional</option>
+            </select>
+        <!-- <input type="Text" id="taskType1" name="taskType" requried><br><br> -->
+        <label for="taskPriority">Task Priority</label>
+            <select name="taskPriority" id="taskPriority1">
+                <option value = "1">1</option>
+                <option value = "2">2</option>
+                <option value = "3">3</option>
+                <option value = "4">4</option>
+                <option value = "5">5</option>
+            </select>
+        <!-- <input for="recurring" id="recurringTask" name="taskRecurring" required><br><br> -->
+        <label for="taskRecurring">Reccuring?</label>    
+            <select name="taskRecurring" id="recurringTask">
+                <option value="false">No</option>
+                <option value="true">Yes</option>
+            </select>
+        <!-- <input type="Text" id="taskPriority1" name="taskPriority" required><br><br> -->
+        <button id="submitButton" type="submit">Submit</button>
+    </form>
+
+    <h3>Tasks</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Task</th>
+                <th>Type</th>
+                <th>Priority</th>
+                <th>Created</th>
+                <th>Completed</th>
+            </tr>
+        </thead>
+        <tbody id="todo-table-body">
+
+        </tbody>
+    </table>
+    <h3>Completed Tasks</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Task</th>
+                    <th>Type</th>
+                    <th>Priority</th>
+                    <th>Created</th>
+                    <th>Completed</th>
+                </tr>
+            </thead>
+            <tbody id="completed-table-body">
+
+            </tbody>
+        </table>
+    <h3>Recurring Tasks</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Task</th>
+                    <th>Type</th>
+                </tr>
+            </thead>
+            <tbody id="recurring-table-body">
+
+            </tbody>
+        </table>
+
+    <script>
+        // Find the button inside the Document Object Model (DOM)
+        //const updateList = document.getElementById('actionButton');
+        const taskForm = document.getElementById('taskForm');
+        // Listen for user clicks on the button
+        async function updateList(){
+            try {
+		//const response = await fetch('http://localhost:3000/api/clicked', {
+		//	method: 'POST',
+		//	//headers: { 'Content-Type': 'applications/json' }
+		//});
+                // Send an HTTP POST request to the backend API route
+                const response = await fetch('http://192.168.254.83:3000/api/tasks', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                const tasks = await response.json();
+                console.log(tasks)
+                const todoTableBody = document.getElementById('todo-table-body');
+                const completedTableBody = document.getElementById('completed-table-body');
+                const recurringTableBody = document.getElementById('recurring-table-body');
+                todoTableBody.innerHTML = '';
+                completedTableBody.innerHTML = '';
+                recurringTableBody.innerHTML = '';
+                
+                tasks.rows.forEach(task => {
+		    const date = task.created_date.slice(0,10);	
+                    if(task.completed == 1){
+                        if(task.recurring != 1){
+                            const row = `
+                                <tr>
+                                    <td>${task.id}</td>
+                                    <td>${task.name}</td>
+                                    <td>${task.type}</td>
+                                    <td>${task.priority}</td>
+                                    <td>${date}</td>
+                                    <td>${task.completed}</td>
+                                    <td> <button type="button" onclick='swapTask(${task.id})'">To Do</button> </td>
+                                    <td> <button type="button" onclick='deleteTask(${task.id})'">Delete</button> </td>
+
+                                </tr>
+                                `;
+                            completedTableBody.innerHTML += row; 
+                        }
+                    }
+                    else{
+                        if(task.recurring != 1){
+                            const row = `
+                            <tr>
+                                <td>${task.id}</td>
+                                <td>${task.name}</td>
+                                <td>${task.type}</td>
+                                <td>${task.priority}</td>
+                                <td>${date}</td>
+                                <td>${task.completed}</td>
+                                <td> <button type="button" onclick='swapTask(${task.id})'">Complete</button> </td>
+                                <td> <button type="button" onclick='deleteTask(${task.id})'">Delete</button> </td>
+                            </tr>
+                            `;
+                            todoTableBody.innerHTML += row; 
+                        }
+
+                    }
+                    if(task.recurring == 1){
+                        const row = `
+                            <tr>
+                                <td>${task.id}</td>
+                                <td>${task.name}</td>
+                                <td>${task.type}</td>
+                                <td> <button type="button" onclick='deleteTask(${task.id})'">Delete</button> </td>
+
+                            </tr>
+                            `;
+                            recurringTableBody.innerHTML += row; 
+                    }
+
+                })
+                //const data = await response.json();
+                //document.getElementById("heading").textContent = JSON.stringify(data);
+                //alert(`Server Response: ${data[0]}`);
+            } catch (error) {
+                alert(error);
+                console.error('Error communicating with server:', error);
+            }
+        };
+
+        taskForm.addEventListener('submit', async () => {
+            try {
+
+                event.preventDefault();
+                const formData = new FormData(taskForm);
+                const dataObject = Object.fromEntries(formData.entries());
+                //console.log(formData);
+                // Send an HTTP POST request to the backend API route
+                const response = await fetch('http://192.168.254.83:3000/api/submit-form', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(dataObject)
+                    
+                });
+                
+                //const data = await response.json();
+                //document.getElementById("heading").textContent = JSON.stringify(data);
+                updateList()
+            } catch (error) {
+                console.error('Error communicating with server:', error);
+                alert(error);
+            }
+        taskForm.reset();
+        });
+
+        async function swapTask(value){
+            try{
+                const dataObject = {"id":value}
+                const response = await fetch('http://192.168.254.83:3000/api/swapTask', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(dataObject)
+                });
+                updateList()
+            }
+            catch(err){
+                alert(err);
+            }
+        }
+
+        async function deleteTask(value){
+            try{
+                if(window.confirm(`Are you sure you want to delete task ${value}?`)){
+                const dataObject = {"id":value}
+                const response = await fetch('http://192.168.254.83:3000/api/deleteTask', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(dataObject)
+                });
+                updateList()
+                } else{
+                    alert("Cancelled")
+                }
+            }
+            catch(err){
+                alert(err);
+            }
+        }
+        
+
+
+        updateList()
+    </script>
+</body>
+</html>
