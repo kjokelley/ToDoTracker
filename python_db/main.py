@@ -3,19 +3,24 @@ import pathlib
 from Python_DB import task_handler as th
 from Printer_Control import print_task as pt
 from Python_DB import task_picker_logic as tpl
-
+from Image_Handler import image_creator as ic
 #th.create_task()
 
 
 
-#allTasks = th.get_all_tasks()
-#activeTasks = tpl.pickTasks(allTasks)
-#print(activeTasks)
-#for x in activeTasks:
-#    task = th.get_task(x)
+allTasks = th.get_all_tasks()
+activeTasks = tpl.pickTasks(allTasks)
+tasksToPrint = []
+
+
+for x in activeTasks:
+    task = th.get_task(x)
+    tasksToPrint.append(task[1])
 #    print(x)
 #    pt.print_task_by_id(task[1])
-pt.print_task_by_id(1)
+image = ic.create_task_list_img(tasksToPrint)
+pt.print_task_by_id(image)
+#pt.print_task_by_id(1)
 
 
 

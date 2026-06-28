@@ -2,13 +2,13 @@ from escpos.printer import Usb
 import sys
 #from Python_DB import task_handler as th
 
-def print_task_by_id(task_name):
+def print_task_by_id(image):
     """ Seiko Epson Corp. Receipt Printer (EPSON TM-T88III) """
     p = Usb(0x04b8, 0x0202, 0, profile="TM-T88V")
     #p.text("Hello World\n")
     #p.text("123\n\n\n\n\n")
     #p.text("end")
-    p.image("/home/kyle/ToDoTracker/python_db/Printer_Control/taskList.png")
+    p.image(image)
     #p.barcode('4006381333931', 'EAN13', 64, 2, '', '')
 
     #task = th.get_task(task_id)

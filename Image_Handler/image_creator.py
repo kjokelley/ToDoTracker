@@ -15,7 +15,7 @@ def create_task_entry(text):
             if (j - 64 < line_thickness or j + line_thickness > 192):
                 pixels[i,j] = 0
     draw = ImageDraw.Draw(img)
-    font = ImageFont.truetype("ARIAL.TTF", 16)
+    font = ImageFont.truetype("ARIAL.TTF", 32)
     draw.text((256, 128), text, 0, font=font)
     return img
 
@@ -33,7 +33,7 @@ def create_task_list_img(list):
     for img in imgs:
         img_merge.paste(img, (0,y))
         y+= img.height
-    img_merge.save("./taskList.png")
-
-create_task_list_img(["Task 1", "Task 2"])
+    #img_merge.save("./taskList.png")
+    return img_merge
+#create_task_list_img(["Task 1", "Task 2"])
 #img.show()
