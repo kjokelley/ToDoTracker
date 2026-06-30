@@ -38,7 +38,22 @@
         <button id="submitButton" type="submit">Submit</button>
     </form>
 
-    <h3>Tasks</h3>
+    <h3>Active Tasks</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Task</th>
+                    <th>Type</th>
+                    <th>Priority</th>
+                </tr>
+            </thead>
+            <tbody id="active-table-body">
+
+            </tbody>
+        </table>
+        
+    <h3>To Do Tasks</h3>
     <table>
         <thead>
             <tr>
@@ -54,6 +69,20 @@
 
         </tbody>
     </table>
+
+    <h3>Recurring Tasks</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Task</th>
+                    <th>Type</th>
+                </tr>
+            </thead>
+            <tbody id="recurring-table-body">
+
+            </tbody>
+        </table>
     <h3>Completed Tasks</h3>
         <table>
             <thead>
@@ -70,34 +99,9 @@
 
             </tbody>
         </table>
-    <h3>Recurring Tasks</h3>
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Task</th>
-                    <th>Type</th>
-                </tr>
-            </thead>
-            <tbody id="recurring-table-body">
 
-            </tbody>
-        </table>
 
-    <h3>Active Tasks</h3>
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Task</th>
-                    <th>Type</th>
-                    <th>Priority</th>
-                </tr>
-            </thead>
-            <tbody id="active-table-body">
 
-            </tbody>
-        </table>
 
     <script>
         // Find the button inside the Document Object Model (DOM)
