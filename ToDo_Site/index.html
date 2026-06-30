@@ -84,6 +84,21 @@
             </tbody>
         </table>
 
+    <h3>Active Tasks</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Task</th>
+                    <th>Type</th>
+                    <th>Priority</th>
+                </tr>
+            </thead>
+            <tbody id="active-table-body">
+
+            </tbody>
+        </table>
+
     <script>
         // Find the button inside the Document Object Model (DOM)
         //const updateList = document.getElementById('actionButton');
@@ -105,15 +120,51 @@
                 const todoTableBody = document.getElementById('todo-table-body');
                 const completedTableBody = document.getElementById('completed-table-body');
                 const recurringTableBody = document.getElementById('recurring-table-body');
+                const activeTableBody = document.getElementById('active-table-body');
+        
                 todoTableBody.innerHTML = '';
                 completedTableBody.innerHTML = '';
                 recurringTableBody.innerHTML = '';
-                
+                activeTableBody.innerHTML = '';
+
                 tasks.rows.forEach(task => {
-		    const date = task.created_date.slice(0,10);	
-                    if(task.completed == 1){
-                        if(task.recurring != 1){
-                            const row = `
+		            const date = task.created_date.slice(0,10);
+                    if(task.active == 1){
+                        const row = `
+                            <tr>
+                                <td>${task.id}</td>
+                                <td>${task.name}</td>
+                                <td>${task.type}</td>
+                                <td>${task.priority}</td>
+                                <td> <button type="button" onclick='swapActiveCompleted(${task.id})'">Complete</button> </td>
+                                <td> <button type="button" onclick='deleteTask(${task.id})'">Delete</button> </td>
+
+                            </tr>
+                            `;
+                        activeTableBody.innerHTML += row;                         
+                    }
+                    else{	
+                        if(task.completed == 1){
+                            if(task.recurring != 1){
+                                const row = `
+                                    <tr>
+                                        <td>${task.id}</td>
+                                        <td>${task.name}</td>
+                                        <td>${task.type}</td>
+                                        <td>${task.priority}</td>
+                                        <td>${date}</td>
+                                        <td>${task.completed}</td>
+                                        <td> <button type="button" onclick='swapCompleted(${task.id})'">To Do</button> </td>
+                                        <td> <button type="button" onclick='deleteTask(${task.id})'">Delete</button> </td>
+
+                                    </tr>
+                                    `;
+                                completedTableBody.innerHTML += row; 
+                            }
+                        }
+                        else{
+                            if(task.recurring != 1){
+                                const row = `
                                 <tr>
                                     <td>${task.id}</td>
                                     <td>${task.name}</td>
@@ -121,43 +172,28 @@
                                     <td>${task.priority}</td>
                                     <td>${date}</td>
                                     <td>${task.completed}</td>
-                                    <td> <button type="button" onclick='swapTask(${task.id})'">To Do</button> </td>
+                                    <td> <button type="button" onclick='swapActivate(${task.id})'">Activate</button> </td>
+                                    <td> <button type="button" onclick='swapCompleted(${task.id})'">Complete</button> </td>
+                                    <td> <button type="button" onclick='deleteTask(${task.id})'">Delete</button> </td>
+                                </tr>
+                                `;
+                                todoTableBody.innerHTML += row; 
+                            }
+
+                        }
+                        if(task.recurring == 1){
+                            const row = `
+                                <tr>
+                                    <td>${task.id}</td>
+                                    <td>${task.name}</td>
+                                    <td>${task.type}</td>
+                                    <td> <button type="button" onclick='swapActive(${task.id})'">Activate</button> </td>
                                     <td> <button type="button" onclick='deleteTask(${task.id})'">Delete</button> </td>
 
                                 </tr>
                                 `;
-                            completedTableBody.innerHTML += row; 
+                                recurringTableBody.innerHTML += row; 
                         }
-                    }
-                    else{
-                        if(task.recurring != 1){
-                            const row = `
-                            <tr>
-                                <td>${task.id}</td>
-                                <td>${task.name}</td>
-                                <td>${task.type}</td>
-                                <td>${task.priority}</td>
-                                <td>${date}</td>
-                                <td>${task.completed}</td>
-                                <td> <button type="button" onclick='swapTask(${task.id})'">Complete</button> </td>
-                                <td> <button type="button" onclick='deleteTask(${task.id})'">Delete</button> </td>
-                            </tr>
-                            `;
-                            todoTableBody.innerHTML += row; 
-                        }
-
-                    }
-                    if(task.recurring == 1){
-                        const row = `
-                            <tr>
-                                <td>${task.id}</td>
-                                <td>${task.name}</td>
-                                <td>${task.type}</td>
-                                <td> <button type="button" onclick='deleteTask(${task.id})'">Delete</button> </td>
-
-                            </tr>
-                            `;
-                            recurringTableBody.innerHTML += row; 
                     }
 
                 })
@@ -195,20 +231,47 @@
         taskForm.reset();
         });
 
-        async function swapTask(value){
+        async function swapActiveCompleted(value){
+            try{
+                swapCompleted(value);
+                swapActive(value);
+                updateList();
+            } catch(err){
+                alert(err);
+            }
+        }
+
+        async function swapCompleted(value){
             try{
                 const dataObject = {"id":value}
-                const response = await fetch('http://192.168.254.83:3000/api/swapTask', {
+                const response = await fetch('http://192.168.254.83:3000/api/swapCompleted', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(dataObject)
                 });
-                updateList()
+                updateList();
             }
             catch(err){
                 alert(err);
             }
         }
+
+        async function swapActive(value){
+            try{
+                const dataObject = {"id":value}
+                const response = await fetch('http://192.168.254.83:3000/api/swapActive', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(dataObject)
+                });
+                updateList();
+            }
+            catch(err){
+                alert(err);
+            }
+        }
+
+        
 
         async function deleteTask(value){
             try{
