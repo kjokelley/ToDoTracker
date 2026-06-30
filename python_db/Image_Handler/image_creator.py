@@ -15,7 +15,7 @@ def create_task_entry(text):
             if (j - 64 < line_thickness or j + line_thickness > 192):
                 pixels[i,j] = 0
     draw = ImageDraw.Draw(img)
-    font = ImageFont.truetype("ARIAL.TTF", 32)
+    font = ImageFont.truetype("/home/kyle/ToDoTracker/python_db/Image_Handler/ARIAL.TTF", 32)
     draw.text((256, 128), text, 0, font=font)
     return img
 
