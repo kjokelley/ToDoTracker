@@ -115,6 +115,7 @@ app.post('/api/swapActive', async (req, res) => {
         console.log(err.message);
         res.status(500).send('Server Error');
     }
+})
 
 app.post('/api/deleteTask', async (req, res) => {
     try{
