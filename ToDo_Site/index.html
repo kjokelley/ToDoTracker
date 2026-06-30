@@ -52,7 +52,7 @@
 
             </tbody>
         </table>
-        
+
     <h3>To Do Tasks</h3>
     <table>
         <thead>
@@ -140,6 +140,7 @@
                                 <td>${task.name}</td>
                                 <td>${task.type}</td>
                                 <td>${task.priority}</td>
+                                <td> <button type="button" onclick='swapActive(${task.id})'">Deactivate</button> </td>
                                 <td> <button type="button" onclick='swapActiveCompleted(${task.id})'">Complete</button> </td>
                                 <td> <button type="button" onclick='deleteTask(${task.id})'">Delete</button> </td>
 
