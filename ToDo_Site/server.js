@@ -105,7 +105,7 @@ app.post('/api/swapCompleted', async (req, res) => {
     }
 })
 
-app.post('/api/swapActive'), async (req, res) => {
+app.post('/api/swapActive', async (req, res) => {
     try{
         const deactivateQuery = 'UPDATE tasks SET active = NOT active where id = $1;';
         const deactivateValue = [req.body.id];
@@ -115,7 +115,6 @@ app.post('/api/swapActive'), async (req, res) => {
         console.log(err.message);
         res.status(500).send('Server Error');
     }
-}
 
 app.post('/api/deleteTask', async (req, res) => {
     try{
