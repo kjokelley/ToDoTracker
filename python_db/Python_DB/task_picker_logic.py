@@ -48,23 +48,31 @@ def pickTasks(tasks):
     
     
     while taskDayTotal < 6:
+        outOfTasks = True
         if(runningTotalOfPriority[5] >= 1 and (taskDayTotal + 5) <= 6):
             activeTasks.append(taskDict[5][random.randint(0, len(taskDict[5]) - 1)])
             taskDayTotal += 5
+            outOfTasks = False
         if(runningTotalOfPriority[4] >= 1 and (taskDayTotal + 4) <= 6):
             if(random.randint(1,3) == 1):
                 activeTasks.append(taskDict[4][random.randint(0, len(taskDict[4]) - 1)])
                 taskDayTotal += 4
+            outOfTasks = False
         if(runningTotalOfPriority[3] >= 1 and (taskDayTotal + 3) <= 6):
             if(random.randint(1,7) == 1):
                 activeTasks.append(taskDict[3][random.randint(0, len(taskDict[3]) - 1)])
                 taskDayTotal += 3
+            outOfTasks = False
         if(runningTotalOfPriority[2] >= 1 and (taskDayTotal + 2) <= 6):
             if(random.randint(1,10) == 1):
                 activeTasks.append(taskDict[2][random.randint(0, len(taskDict[2]) - 1)])
                 taskDayTotal += 2
+            outOfTasks = False
         if(runningTotalOfPriority[1] >= 1 and (taskDayTotal + 1) <= 6 or taskDayTotal == 5):
             if(random.randint(1,14) == 1):
                 activeTasks.append(taskDict[1][random.randint(0, len(taskDict[1]) - 1)])
                 taskDayTotal += 1
+            outOfTasks = False
+        if (outOfTasks == True):
+            taskDayTotal = 6
     return activeTasks
