@@ -95,6 +95,42 @@ def get_task(task_id):
         print("End of retrieval")
         connection.close()
 
+def set_active_task(task_id):
+    try:
+        connection = create_connection()
+        cursor = connection.cursor()
+        cursor.execute(
+            "UPDATE tasks SET active = True WHERE id = (%s);", 
+            (task_id,)
+        )
+        task = cursor.fetchone()
+        return task
+    except psycopg2.Error as error:
+        print(f"Database error occured: {error}")
+    finally:
+        connection.commit()
+        cursor.close()
+        print("End of retrieval")
+        connection.close()
+
+def set_inactive_task(task_id):
+    try:
+        connection = create_connection()
+        cursor = connection.cursor()
+        cursor.execute(
+            "UPDATE tasks SET active = False WHERE id = (%s);", 
+            (task_id,)
+        )
+        task = cursor.fetchone()
+        return task
+    except psycopg2.Error as error:
+        print(f"Database error occured: {error}")
+    finally:
+        connection.commit()
+        cursor.close()
+        print("End of retrieval")
+        connection.close()
+
 def get_all_tasks():
     try:
         connection = create_connection()

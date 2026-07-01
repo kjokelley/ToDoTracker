@@ -27,7 +27,7 @@ def create_task_list_img(list):
     
     #imgs = [Image.open(i) for i in task_img_list]
     imgs = task_img_list
-    height = len(task_img_list) * 256
+    height = len(task_img_list) * 256 + 128
     img_merge = Image.new(imgs[0].mode, (512, height))
     y = 0
     for img in imgs:

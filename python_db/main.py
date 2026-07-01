@@ -16,6 +16,7 @@ tasksToPrint = []
 for x in activeTasks:
     task = th.get_task(x)
     tasksToPrint.append(task[1])
+    th.set_active_task(x)
 #    print(x)
 #    pt.print_task_by_id(task[1])
 image = ic.create_task_list_img(tasksToPrint)
