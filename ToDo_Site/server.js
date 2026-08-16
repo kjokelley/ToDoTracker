@@ -135,7 +135,7 @@ app.post('/api/deleteTask', async (req, res) => {
 app.post('/api/print', async (req, res) => {
     try{
         //console.log(req.body.id);
-        const printProcess = spawn('sh', ['../../dailyprint.sh']);
+        const printProcess = spawn('sudo', ['../../dailyprint.sh']);
         res.status(200).send('print sent');
     } catch (err){
         console.log(err.message);
