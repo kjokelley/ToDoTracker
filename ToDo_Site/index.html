@@ -39,6 +39,7 @@
     </form>
 
     <h3>Active Tasks</h3>
+        <button id="printButton" onclick='print()'>Print</button>
         <table>
             <thead>
                 <tr>
@@ -242,6 +243,19 @@
                 swapActive(value);
                 updateList();
             } catch(err){
+                alert(err);
+            }
+        }
+
+        async function print(){
+            try{
+                const response = await fetch('http://192.168.254.83:3000/api/print', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                });
+                updateList();
+            }
+            catch(err){
                 alert(err);
             }
         }

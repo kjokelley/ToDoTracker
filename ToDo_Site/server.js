@@ -1,6 +1,7 @@
 //var db = require('./database_handler.js')
 const express = require('express');
 const db = require('./db')
+const spawn = require ('child_process');
 //const {DatabaseSync} = require('node:sqlite')
 //const database = new DatabaseSync('database.db')
 const path = require('path');
@@ -129,6 +130,20 @@ app.post('/api/deleteTask', async (req, res) => {
         res.status(500).send('Server Error');
     }
 })
+
+
+app.post('/api/print', async (req, res) => {
+    try{
+        //console.log(req.body.id);
+        const printProcess = spawn('sh', ['../../dailyprint.sh']);
+        res.status(200).send('print sent');
+    } catch (err){
+        console.log(err.message);
+        res.status(500).send('Server Error');
+    }
+})
+
+
 app.listen(PORT, '0.0.0.0', () => {
     console.log('Website live @ https://localhost:${PORT}');
 });
