@@ -135,8 +135,11 @@ app.post('/api/deleteTask', async (req, res) => {
 
 app.post('/api/print', async (req, res) => {
     try{
+        
         exec('touch /home/kyle/testfile.txt');
+        res.send("HELLO");
     } catch (err){
+        res.send("NOPE");
         console.log(err.message);
         res.status(500).send('Server Error');
     }
