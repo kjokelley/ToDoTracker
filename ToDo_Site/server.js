@@ -135,7 +135,16 @@ app.post('/api/deleteTask', async (req, res) => {
 app.post('/api/print', async (req, res) => {
     try{
         //console.log(req.body.id);
-        const printProcess = spawn('sudo', ['/home/kyle/dailyprint.sh']);
+        //const printProcess = spawn('sudo', ['/home/kyle/dailyprint.sh']);
+        exec('/home/kyle/dailyprint.sh', (err, stdout, stderr) => { 
+            if (err) {
+                console.error(`${err}`);
+                res.send(err);
+                return;
+            }
+            console.log(`stdout: ${stdout}`);
+            console.error(`stderr:  ${stderr}`);
+        });
         res.status(200).send('print sent');
         console.log("yeah");
     } catch (err){
