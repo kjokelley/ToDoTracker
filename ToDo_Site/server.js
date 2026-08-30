@@ -2,6 +2,7 @@
 const express = require('express');
 const db = require('./db')
 const spawn = require ('child_process');
+const fs = require('node:fs/promises');
 //const {DatabaseSync} = require('node:sqlite')
 //const database = new DatabaseSync('database.db')
 const path = require('path');
@@ -140,9 +141,13 @@ app.post('/api/print', async (req, res) => {
             if (err) {
                 console.error(`${err}`);
                 res.send(err);
+                const content = err
+                fs.writeFile('/home/kyle/serverErr.txt', err);
                 return;
             }
+            fs.writeFile('/home/kyle/serverStdout.txt', stdout);
             console.log(`stdout: ${stdout}`);
+            fs.writeFile('/home/kyle/serverStdErr.txt', stderr);
             console.error(`stderr:  ${stderr}`);
         });
         res.status(200).send('print sent');
