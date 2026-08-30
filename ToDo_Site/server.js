@@ -137,7 +137,7 @@ app.post('/api/print', async (req, res) => {
     try{
         //console.log(req.body.id);
         //const printProcess = spawn('sudo', ['/home/kyle/dailyprint.sh']);
-        await exec('touch /home/kyle/testfile.txt', (err, stdout, stderr) => { 
+        await spawn('touch /home/kyle/testfile.txt', (err, stdout, stderr) => { 
             if (err) {
                 console.error(`${err}`);
                 res.send(err);
