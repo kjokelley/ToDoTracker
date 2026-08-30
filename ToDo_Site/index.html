@@ -252,7 +252,9 @@
                 const response = await fetch('http://192.168.254.83:3000/api/print', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
+                    
                 });
+                alert(response);
                 updateList();
             }
             catch(err){
