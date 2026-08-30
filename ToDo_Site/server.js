@@ -133,11 +133,11 @@ app.post('/api/deleteTask', async (req, res) => {
 })
 
 
-app.get('/api/print', async (req, res) => {
+app.post('/api/print', async (req, res) => {
     try{
         //console.log(req.body.id);
         //const printProcess = spawn('sudo', ['/home/kyle/dailyprint.sh']);
-        await exec('/home/kyle/dailyprint.sh', (err, stdout, stderr) => { 
+        await exec('/home/kyle/test.sh', (err, stdout, stderr) => { 
             if (err) {
                 console.error(`${err}`);
                 res.send(err);
