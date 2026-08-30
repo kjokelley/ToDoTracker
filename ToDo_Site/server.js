@@ -137,6 +137,7 @@ app.post('/api/print', async (req, res) => {
         //console.log(req.body.id);
         const printProcess = spawn('sudo', ['/home/kyle/dailyprint.sh']);
         res.status(200).send('print sent');
+        console.log("yeah");
     } catch (err){
         console.log(err.message);
         res.status(500).send('Server Error');
