@@ -255,7 +255,8 @@
                     
                 });
                 updateList();
-                alert(response);
+                alert(response.status);
+                alert(response.json());
             }
             catch(err){
                 alert(err);
