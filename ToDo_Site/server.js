@@ -1,7 +1,7 @@
 //var db = require('./database_handler.js')
 const express = require('express');
 const db = require('./db')
-const spawn = require ('child_process');
+const { exec } = require ('node:child_process');
 const fs = require('node:fs/promises');
 //const {DatabaseSync} = require('node:sqlite')
 //const database = new DatabaseSync('database.db')
@@ -137,7 +137,7 @@ app.post('/api/print', async (req, res) => {
     try{
         //console.log(req.body.id);
         //const printProcess = spawn('sudo', ['/home/kyle/dailyprint.sh']);
-        await spawn('touch /home/kyle/testfile.txt', (err, stdout, stderr) => { 
+        await exec('touch /home/kyle/testfile.txt', (err, stdout, stderr) => { 
             if (err) {
                 console.error(`${err}`);
                 res.send(err);
